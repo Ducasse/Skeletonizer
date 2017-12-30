@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "StephaneDucasse 12/30/2017 21:56",
+	"super" : "Object",
+	"category" : "Skeletonizer",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"newClassName",
+		"selectors",
+		"classSelectors"
+	],
+	"name" : "Skeletonizer",
+	"type" : "variable"
+}
