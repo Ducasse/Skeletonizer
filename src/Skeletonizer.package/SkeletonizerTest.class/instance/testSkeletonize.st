@@ -1,12 +1,13 @@
 tests
 testSkeletonize
 	| maker mockClass |
-	mockClass := self class environment at: self mockCopyClassName.
 	maker := Skeletonizer new
 		selectors: #(methodToSkeletonize);
-		inClass: self mockCopyClassName.
+		sourceClassName: #SkeletonMock;
+		targetClassName: self targetMockCopyClassName.
 	maker installClass.
 	maker skeletonize.
+	mockClass := self class environment at: self targetMockCopyClassName.
 	self deny: mockClass new methodToSkeletonize = 'body to remove'.
 	"in fact since a skeletonized method returns self it is better to test that the return object is of the right class"
 	self assert: mockClass new methodToSkeletonize class equals: mockClass.

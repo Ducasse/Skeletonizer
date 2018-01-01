@@ -7,8 +7,9 @@ Right now I do not work at the class level.
 [[[
 | maker |
 maker := Skeletonizer new
-				selectors: #(methodToSkeletonize);
-				inClass: SkeletonMock.
+			selectors: #(methodToSkeletonize);
+			sourceClassName: #SkeletonMock;
+			targetClassName: #SkeletonMockCopy.
 maker installClass.
 maker skeletonize.
 ]]]

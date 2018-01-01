@@ -1,3 +1,3 @@
 initialization
-mockCopyClassName
+targetMockCopyClassName
 	^ #SkeletonMockCopy

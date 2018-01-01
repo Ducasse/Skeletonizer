@@ -1,3 +1,3 @@
 installation
 installClass
-	self newClass duplicateClassWithNewName: newClassName.
+	self sourceClass duplicateClassWithNewName: self targetClassName
