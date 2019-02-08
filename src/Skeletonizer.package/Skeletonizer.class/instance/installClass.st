@@ -1,3 +1,0 @@
-installation
-installClass
-	self sourceClass duplicateClassWithNewName: self targetClassName
