@@ -3,9 +3,9 @@ I'm a simple class that can nuke method body to generate skeleton for exercise.
 Right now I do not work at the class level.
 
 
-!! Example of Use
+### Example of Use
 
-[[[
+```
 | maker |
 maker := Skeletonizer new
 			selectors: #(methodToSkeletonize);
@@ -13,7 +13,7 @@ maker := Skeletonizer new
 			targetClassName: #SkeletonMockCopy.
 maker installClass.
 maker skeletonize.
-]]]
+```
 
 It does not copy the package.
 
@@ -29,10 +29,10 @@ Class {
 		'sourceClassName',
 		'targetClassName'
 	],
-	#category : 'Skeletonizer'
+	#category : #Skeletonizer
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'for objVlisp' }
 Skeletonizer class >> createObJVSkeleton [
 	"ObjSkeletonMaker createObjVSkeleton"
 	
@@ -67,7 +67,7 @@ Skeletonizer >> installClass [
 { #category : #private }
 Skeletonizer >> returnSelf [
 	"I'm a special method whose program nodes are used to hack skeleton. Do not remove me."
-	^ self
+	^ self shouldBeImplemented 
 ]
 
 { #category : #accessing }

@@ -16,7 +16,7 @@ Class {
 	#name : #SkeletonizerTest,
 	#superclass : #TestCase,
 	#type : #variable,
-	#category : 'Skeletonizer'
+	#category : #Skeletonizer
 }
 
 { #category : #initialization }
@@ -28,7 +28,8 @@ SkeletonizerTest >> removeMock [
 
 { #category : #initialization }
 SkeletonizerTest >> setUp [
-	self removeMock.
+	super setUp.
+	self removeMock
 	
 ]
 
@@ -40,6 +41,7 @@ SkeletonizerTest >> targetMockCopyClassName [
 { #category : #initialization }
 SkeletonizerTest >> tearDown [
 		self removeMock.
+		super tearDown
 ]
 
 { #category : #tests }
@@ -52,10 +54,13 @@ SkeletonizerTest >> testSkeletonize [
 	maker installClass.
 	maker skeletonize.
 	mockClass := self class environment at: self targetMockCopyClassName.
-	self deny: mockClass new methodToSkeletonize = 'body to remove'.
-	"in fact since a skeletonized method returns self it is better to test that the return object is of the right class"
-	self assert: mockClass new methodToSkeletonize class equals: mockClass.
-	self assert: mockClass new methodToKeepAsIs equals: 'body to be kept'
+	self 
+		assert: (mockClass >> #methodToSkeletonize) ast body sourceCode 
+		equals: '^ self shouldBeImplemented'.
+		
+	self 
+		assert: (mockClass >> #methodToKeepAsIs) ast body sourceCode
+		equals:  '^ ''body to be kept''.'
 ]
 
 { #category : #tests }
@@ -68,10 +73,14 @@ SkeletonizerTest >> testSkeletonizeClassMethods [
 	maker installClass.
 	sourceMockClass := self class environment at: self targetMockCopyClassName.
 	maker skeletonize.
-	self deny: sourceMockClass classMethodToSkeletonize = 'body to remove'.
-	"in fact since a skeletonized method returns self it is better to test that the return object is of the right class"
-	self assert: sourceMockClass classMethodToSkeletonize equals: sourceMockClass.
-	self assert: sourceMockClass classMethodToKeepAsIs equals: 'body to be kept'
+	
+	self 
+		assert: (sourceMockClass class >> #classMethodToSkeletonize) ast body sourceCode 
+		equals: '^ self shouldBeImplemented'.
+		
+	self 
+		assert: (sourceMockClass class  >> #classMethodToKeepAsIs) ast body sourceCode
+		equals:  '^ ''body to be kept'''
 ]
 
 { #category : #tests }
@@ -84,15 +93,11 @@ SkeletonizerTest >> testSkeletonizeReturningSelfMethod [
 	maker installClass.
 	maker skeletonize.
 
-	"does not prove anything when the method return self!!! ."
-	self
-		assert: (self class environment at: self targetMockCopyClassName) new methodToSkeletonize2 class
-		equals: (self class environment at: self targetMockCopyClassName).
 	self
 		assert: ((self class environment at: self targetMockCopyClassName) >> #methodToSkeletonize2) sourceCode
 		equals:
 			'methodToSkeletonize2
 	"comment to keep"
 
-	^ self'
+	^ self shouldBeImplemented'
 ]
